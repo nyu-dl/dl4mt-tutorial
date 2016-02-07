@@ -660,7 +660,7 @@ def build_model(tparams, options):
 
 
 # build a sampler
-def build_sampler(tparams, options, trng):
+def build_sampler(tparams, options, trng, use_noise):
     x = tensor.matrix('x', dtype='int64')
     xr = x[::-1]
     n_timesteps = x.shape[0]
@@ -720,6 +720,8 @@ def build_sampler(tparams, options, trng):
     logit_ctx = get_layer('ff')[1](tparams, ctxs, options,
                                    prefix='ff_logit_ctx', activ='linear')
     logit = tensor.tanh(logit_lstm+logit_prev+logit_ctx)
+    if options['use_dropout']:
+        logit = dropout_layer(logit, use_noise, trng)
     logit = get_layer('ff')[1](tparams, logit, options,
                                prefix='ff_logit', activ='linear')
 
@@ -1066,7 +1068,7 @@ def train(dim_word=100,  # word vector dimensionality
     inps = [x, x_mask, y, y_mask]
 
     print 'Building sampler'
-    f_init, f_next = build_sampler(tparams, model_options, trng)
+    f_init, f_next = build_sampler(tparams, model_options, trng, use_noise)
 
     # before any regularizer
     print 'Building f_log_probs...',

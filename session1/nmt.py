@@ -556,7 +556,7 @@ def build_model(tparams, options):
 
 
 # build a sampler
-def build_sampler(tparams, options, trng):
+def build_sampler(tparams, options, trng, use_noise):
     x = tensor.matrix('x', dtype='int64')
     n_timesteps = x.shape[0]
     n_samples = x.shape[1]
@@ -942,7 +942,7 @@ def train(dim_word=100,  # word vector dimensionality
     inps = [x, x_mask, y, y_mask]
 
     print 'Building sampler'
-    f_init, f_next = build_sampler(tparams, model_options, trng)
+    f_init, f_next = build_sampler(tparams, model_options, trng, use_noise)
 
     # before any regularizer
     print 'Building f_log_probs...',

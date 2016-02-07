@@ -16,6 +16,7 @@ def translate_model(queue, rqueue, pid, model, options, k, normalize, n_best):
 
     from theano.sandbox.rng_mrg import MRG_RandomStreams as RandomStreams
     trng = RandomStreams(1234)
+    use_noise = theano.shared(numpy.float32(0.))
 
     # allocate model parameters
     params = init_params(options)
@@ -25,7 +26,7 @@ def translate_model(queue, rqueue, pid, model, options, k, normalize, n_best):
     tparams = init_tparams(params)
 
     # word index
-    f_init, f_next = build_sampler(tparams, options, trng)
+    f_init, f_next = build_sampler(tparams, options, trng, use_noise)
 
     def _translate(seq):
         # sample given an input sequence and obtain scores

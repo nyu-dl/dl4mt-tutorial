@@ -526,7 +526,7 @@ def build_model(tparams, options):
                                             one_step=False,
                                             init_state=init_state)
     # hidden states of the decoder gru
-    proj_h = proj[0]
+    proj_h = proj
 
     # we will condition on the last state of the encoder only
     ctxs = ctx[None, :, :]

@@ -657,7 +657,7 @@ def gen_sample(tparams, f_init, f_next, x, options, trng=None, k=1, maxlen=30,
             else:
                 nw = next_w[0]
             sample.append(nw)
-            sample_score += next_p[0, nw]
+            sample_score -= numpy.log(next_p[0, nw])
             if nw == 0:
                 break
         else:

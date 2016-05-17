@@ -1,0 +1,204 @@
+\documentclass[11pt, oneside]{article} 
+\usepackage{geometry}                		
+%\geometry{letterpaper}                   		
+\usepackage[parfill]{parskip}
+\usepackage{graphicx}				
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{enumerate}
+
+\theoremstyle{definition}
+\newtheorem*{ans*}{Answer}
+
+\newcommand{\obs}{\text{obs}}
+\newcommand{\mis}{\text{mis}}
+
+\newcommand{\qt}[1]{\left<#1\right>}
+\newcommand{\ql}[1]{\left[#1\right]}
+\newcommand{\hess}{\mathbf{H}}
+\newcommand{\jacob}{\mathbf{J}}
+%\newcommand{\hl}{HL}
+\newcommand{\cost}{\mathcal{L}}
+\newcommand{\lout}{\mathbf{r}}
+\newcommand{\louti}{r}
+\newcommand{\outi}{y}
+\newcommand{\out}{\mathbf{y}}
+\newcommand{\gauss}{\mathbf{G_N}}
+\newcommand{\eye}{\mathbf{I}}
+\newcommand{\softmax}{\phi}
+\newcommand{\targ}{\mathbf{t}}
+\newcommand{\metric}{\mathbf{G}}
+\newcommand{\sample}{\mathbf{z}}
+\newcommand{\f}{\text{f}}
+%\newcommand{\log}{\text{log}}
+
+\newcommand{\bmx}[0]{\begin{bmatrix}}
+\newcommand{\emx}[0]{\end{bmatrix}}
+\newcommand{\qexp}[1]{\left<#1\right>}
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\vects}[1]{\boldsymbol{#1}}
+\newcommand{\matr}[1]{\mathbf{#1}}
+\newcommand{\var}[0]{\operatorname{Var}}
+\newcommand{\std}[0]{\operatorname{std}}
+\newcommand{\cov}[0]{\operatorname{Cov}}
+\newcommand{\diag}[0]{\operatorname{diag}}
+\newcommand{\matrs}[1]{\boldsymbol{#1}}
+\newcommand{\va}[0]{\vect{a}}
+\newcommand{\vb}[0]{\vect{b}}
+\newcommand{\vc}[0]{\vect{c}}
+\newcommand{\ve}[0]{\vect{e}}
+
+\newcommand{\vh}[0]{\vect{h}}
+\newcommand{\vv}[0]{\vect{v}}
+\newcommand{\vx}[0]{\vect{x}}
+\newcommand{\vz}[0]{\vect{z}}
+\newcommand{\vw}[0]{\vect{w}}
+\newcommand{\vs}[0]{\vect{s}}
+\newcommand{\vf}[0]{\vect{f}}
+\newcommand{\vi}[0]{\vect{i}}
+\newcommand{\vo}[0]{\vect{o}}
+\newcommand{\vy}[0]{\vect{y}}
+\newcommand{\vg}[0]{\vect{g}}
+\newcommand{\vm}[0]{\vect{m}}
+\newcommand{\vu}[0]{\vect{u}}
+\newcommand{\vL}[0]{\vect{L}}
+\newcommand{\vr}[0]{\vect{r}}
+\newcommand{\vp}[0]{\vect{p}}
+\newcommand{\mW}[0]{\matr{W}}
+\newcommand{\mP}[0]{\matr{P}}
+
+\newcommand{\mE}[0]{\matr{E}}
+\newcommand{\mG}[0]{\matr{G}}
+\newcommand{\mX}[0]{\matr{X}}
+\newcommand{\mQ}[0]{\matr{Q}}
+\newcommand{\mU}[0]{\matr{U}}
+\newcommand{\mF}[0]{\matr{F}}
+\newcommand{\mV}[0]{\matr{V}}
+\newcommand{\mA}{\matr{A}}
+\newcommand{\mC}{\matr{C}}
+\newcommand{\mD}{\matr{D}}
+\newcommand{\mS}{\matr{S}}
+\newcommand{\mI}{\matr{I}}
+\newcommand{\td}[0]{\text{d}}
+\newcommand{\TT}[0]{\vects{\theta}}
+\newcommand{\vsig}[0]{\vects{\sigma}}
+\newcommand{\valpha}[0]{\vects{\alpha}}
+\newcommand{\vmu}[0]{\vects{\mu}}
+\newcommand{\vzero}[0]{\vect{0}}
+\newcommand{\tf}[0]{\text{m}}
+\newcommand{\tdf}[0]{\text{dm}}
+\newcommand{\grad}[0]{\nabla}
+\newcommand{\alert}[1]{\textcolor{red}{#1}}
+\newcommand{\N}[0]{\mathcal{N}}
+\newcommand{\LL}[0]{\mathcal{L}}
+\newcommand{\HH}[0]{\mathcal{H}}
+\newcommand{\RR}[0]{\mathbb{R}}
+\newcommand{\II}[0]{\mathbb{I}}
+\newcommand{\Scal}[0]{\mathcal{S}}
+\newcommand{\sigmoid}{\sigma}
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\enabla}[0]{\ensuremath{%
+    \overset{\raisebox{-0.3ex}[0.5ex][0ex]{%
+    \ensuremath{\scriptscriptstyle e}}}{\nabla}}}
+\newcommand{\enhnabla}[0]{\nabla_{\hspace{-0.5mm}e}\,}
+
+
+\newcommand{\todo}[1]{{\Large\textcolor{red}{#1}}}
+\newcommand{\done}[1]{{\Large\textcolor{green}{#1}}}
+\newcommand{\dd}[1]{\ensuremath{\mbox{d}#1}}
+
+\DeclareMathOperator*{\argmax}{\arg \max}
+\DeclareMathOperator*{\argmin}{\arg \min}
+\newcommand{\newln}{\\&\quad\quad{}}
+
+\newcommand{\Ax}{\mathcal{A}_x}
+\newcommand{\Ay}{\mathcal{A}_y}
+\newcommand{\ola}{\overleftarrow}
+\newcommand{\ora}{\overrightarrow}
+\newcommand{\ov}{\overline}
+\newcommand{\ts}{\rule{0pt}{2.6ex}}       % Top strut
+\newcommand{\ms}{\rule{0pt}{0ex}}         % Middle strut
+\newcommand{\bs}{\rule[-1.2ex]{0pt}{0pt}} % Bottom strut
+\newcommand{\specialcell}[2][c]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\newcommand\codeHighlight[1]{\textcolor[rgb]{1,0,0}{#1}}
+
+\title{DL4MT-Tutorial: \\Conditional Gated Recurrent Unit with Attention Mechanism}
+%\author{FirstName LastName - \texttt{username@edu}}
+\date{\vspace{-8ex}}
+
+\begin{document}
+
+\maketitle
+
+This document describes the $gru\_cond\_layer$ used in Session 2 and Session 3.
+
+Given a source sequence $(x_1, \dots,x_{T_x})$ of length $T_x$ and a target
+sequence $(y_1,\dots,y_{T_y})$, let $\vh_i$ be the annotation of the source symbol 
+at position $i$, obtained by concatenating the forward and backward encoder RNN 
+hidden states, $\vh_i = [ \ora{\vh}_i; \ola{\vh}_i ]$. A conditional GRU with attention 
+mechanism, cGRU$_{\text{att}}$, uses it's previous hidden state $\vs_{j-1}$, the 
+whole set of source annotations $\text{C}=\lbrace\vh_i, \dots, \vh_{T_x}\rbrace$ and 
+the previously decoded symbol $y_{j-1}$ in order to update it's hidden state $\vs_j$, 
+which is further used to decode symbol $y_j$ at position $j$,
+
+\begin{equation}
+	\vs_j = \text{cGRU}_{\text{att}}\left(  \vs_{j-1}, y_{j-1}, \text{C}  \right).
+\end{equation}
+
+\paragraph{Internals} The conditional GRU layer with attention mechanism, 
+cGRU$_{\text{att}}$, consists of three components, two 
+recurrent cells and an attention mechanism ATT in between. 
+First recurrent cell $\text{REC}_1$, combines the previous decoded symbol $y_{j-1}$ 
+and previous hidden state $\vs_{j-1}$ in order to generate an intermediate 
+representation $\vs^{\prime}_j$ with the following formulations:
+
+\vspace{-10px}
+\begin{align}
+	\vs_j^{\prime} = \text{REC}_1 &  \left( y_{j-1}, \vs_{j-1}  \right) = (1 - \vz_j^{\prime}) \odot \underline{\vs}_j^{\prime} + \vz_j^{\prime} \odot \vs_{j-1},	 \\
+	\underline{\vs}_j^{\prime} =& ~\text{tanh} \left(   \mW^{\prime} \mE[y_{j-1}] + \vr_j^{\prime} \odot (\mU^{\prime}\vs_{j-1})  \right), \\
+	\vr_j^{\prime} =& ~ \sigma \left(  \mW_r^{\prime} \mE[y_{j-1}] + \mU_r^{\prime} \vs_{j-1}  \right), \\
+	\vz_j^{\prime} =& ~ \sigma \left(  \mW_z^{\prime} \mE[y_{j-1}] + \mU_z^{\prime} \vs_{j-1}  \right),
+\end{align}
+
+\noindent where $\mE$ is the target word embedding matrix, 
+$\underline{\vs}_j^{\prime}$ is the proposal intermediate representation, $\vr_j^{\prime}$ 
+and $\vz_j^{\prime}$ being the reset and update gate activations. In this formulation, 
+$\mW^{\prime}$, $\mU^{\prime}$, $\mW_r^{\prime}$, $\mU_r^{\prime}$, 
+$\mW_z^{\prime}$, $\mU_z^{\prime}$ are trained model parameters\footnote{All 
+the biases are omitted for simplicity.} tanh and $\sigma$ are hyperbolic tangent 
+and logistic sigmoid activation functions respectively.
+
+The attention mechanism ATT, inputs the entire context set C along with 
+intermediate hidden state $\vs_j^{\prime}$ in order to compute the context vector 
+$\vc_j$ as follows:
+
+\begin{align}
+	\vc_j =& \text{ATT} \left(  \text{C}, \vs_j^{\prime}  \right) = \sum_i^{T_x} \alpha_{ij} \vh_i	,	\\
+	 \alpha_{ij} &  = \frac{\text{exp}(e_{ij})}{\sum_{k=1}^{Tx} \text{exp}(e_{kj}) } 	,\\
+	e_{ij} =& \vv_a^{\intercal} \text{tanh} \left( \mU_a \vs_j^{(1)} + \mW_a \vh_i \right) ,	
+\end{align}
+
+\noindent where $\alpha_{ij}$ is the normalized alignment weight between source 
+symbol at position $i$ and target symbol at position $j$ and $\vv_a, \mU_a, \mW_a$ 
+are the trained model parameters.
+
+Finally, the second recurrent cell $\text{REC}_2$, generates $\vs_j$, the hidden state of 
+the $\text{cGRU}_{\text{att}}$, by looking at intermediate representation  
+$\vs_j^{\prime}$ and context vector $\vc_j$ with the following formulations:
+
+\begin{align}
+	\vs_j = \text{REC}_2 & \left(  \vs_j^{\prime}, \vc_j  \right) = (1 - \vz_j) \odot \underline{\vs}_j + \vz_j \odot \vs_j^{\prime},	 \\
+	\underline{\vs}_j =& \text{tanh} \left(  \mW \vc_j  + \vr_j \odot (\mU \vs_j^{\prime} )  \right) ,\\
+	\vr_j =& \sigma \left( \mW_r \vc_j + \mU_r \vs_j^{\prime} \right), \\
+	\vz_j =& \sigma \left( \mW_z \vc_j + \mU_z \vs_j^{\prime} \right),
+\end{align}
+
+\noindent similarly, $\underline{\vs}_j$ being the proposal hidden state, 
+$\vr_j$ and $\vz_j$ being the reset and update gate activations with the 
+trained model parameters $\mW, \mU, \mW_r, \mU_r, 
+\mW_z, \mU_z$.
+
+\end{document} 

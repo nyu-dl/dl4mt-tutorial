@@ -497,9 +497,9 @@ def adam(lr, tparams, grads, inp, cost):
 
     f_grad_shared = theano.function(inp, cost, updates=gsup, profile=profile)
 
-    lr0 = 0.0002
-    b1 = 0.1
-    b2 = 0.001
+    lr0 = 0.0001
+    b1 = 0.9
+    b2 = 0.999
     e = 1e-8
 
     updates = []

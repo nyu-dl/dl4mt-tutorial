@@ -15,8 +15,9 @@ from multiprocessing import Process, Queue
 def translate_model(queue, rqueue, pid, model, options, k, normalize):
 
     from theano.sandbox.rng_mrg import MRG_RandomStreams as RandomStreams
+    from theano import shared
     trng = RandomStreams(1234)
-    use_noise = theano.shared(numpy.float32(0.))
+    use_noise = shared(numpy.float32(0.))
 
     # allocate model parameters
     params = init_params(options)

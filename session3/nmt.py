@@ -250,7 +250,7 @@ def param_init_gru(options, params, prefix='gru', nin=None, dim=None):
     return params
 
 
-def gru_layer(tparams, state_below, options, prefix='gru', mask=None,
+def gru_layer(tparams, state_below, options, prefix='gru', mask=None, init_states=None,
               **kwargs):
     nsteps = state_below.shape[0]
     if state_below.ndim == 3:
@@ -303,7 +303,8 @@ def gru_layer(tparams, state_below, options, prefix='gru', mask=None,
 
     # prepare scan arguments
     seqs = [mask, state_below_, state_belowx]
-    init_states = [tensor.alloc(0., n_samples, dim)]
+    if init_states is None:
+        init_states = [tensor.alloc(0., n_samples, dim)]
     _step = _step_slice
     shared_vars = [tparams[_p(prefix, 'U')],
                    tparams[_p(prefix, 'Ux')]]

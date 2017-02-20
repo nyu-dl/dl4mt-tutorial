@@ -9,7 +9,7 @@ LOCAL_INSTALL_FILE=/ichec/work/dl4mt_data/local_install.tgz
 CODE_DIR=${HOME}/codes/dl4mt-material
 
 # code repository 
-CODE_CENTRAL=https://github.com/kyunghyuncho/dl4mt-material
+CODE_CENTRAL=https://github.com/nyu-dl/dl4mt-tutorial
 
 # reference files directory
 REF_DATA_DIR=/ichec/work/dl4mt_data/nec_files
@@ -59,8 +59,8 @@ echo "Cloning/installing Theano"
 mkdir -p ${THEANO_DIR}
 git clone ${THEANO_GIT} ${THEANO_DIR}
 cd ${THEANO_DIR}
-python setup.py install --user
+python3 setup.py install --user
 
 # check if theano is working
-python -c "import theano;print 'theano available!'"
+python3 -c "import theano;print 'theano available!'"
 

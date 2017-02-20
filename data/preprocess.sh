@@ -41,16 +41,16 @@ perl $P1/tokenizer.perl -threads 5 -l $T < ${P1}/test2011/newstest2011.${T} > ${
 
 # BPE
 if [ ! -f "${S}.bpe" ]; then
-    python $P2/learn_bpe.py -s 20000 < all_${S}-${T}.${S}.tok > ${S}.bpe
+    python3 $P2/learn_bpe.py -s 20000 < all_${S}-${T}.${S}.tok > ${S}.bpe
 fi
 if [ ! -f "${T}.bpe" ]; then
-    python $P2/learn_bpe.py -s 20000 < all_${S}-${T}.${T}.tok > ${T}.bpe
+    python3 $P2/learn_bpe.py -s 20000 < all_${S}-${T}.${T}.tok > ${T}.bpe
 fi
 
 # utility function to encode a file with bpe
 encode () {
     if [ ! -f "$3" ]; then
-        python $P2/apply_bpe.py -c $1 < $2 > $3 
+        python3 $P2/apply_bpe.py -c $1 < $2 > $3 
     else
         echo "$3 exists, pass"
     fi
@@ -63,9 +63,9 @@ encode ${S}.bpe ${P1}/newstest2011.${S}.tok ${P1}/newstest2011.${S}.tok.bpe
 encode ${T}.bpe ${P1}/newstest2011.${T}.tok ${P1}/newstest2011.${T}.tok.bpe
 
 # shuffle 
-python $P1/shuffle.py all_${S}-${T}.${S}.tok.bpe all_${S}-${T}.${T}.tok.bpe
+python3 $P1/shuffle.py all_${S}-${T}.${S}.tok.bpe all_${S}-${T}.${T}.tok.bpe
 
 # build dictionary
-python $P1/build_dictionary.py all_${S}-${T}.${S}.tok.bpe
-python $P1/build_dictionary.py all_${S}-${T}.${T}.tok.bpe
+python3 $P1/build_dictionary.py all_${S}-${T}.${S}.tok.bpe
+python3 $P1/build_dictionary.py all_${S}-${T}.${T}.tok.bpe
 

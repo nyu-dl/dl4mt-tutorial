@@ -20,10 +20,11 @@ done
 
 
 # code directory for cloned repositories
-CODE_DIR=${HOME}/git/dl4mt-tutorial
+SCRIPT_DIR=$( dirname "${BASH_SOURCE[0]}" )
+CODE_DIR=$( realpath "${SCRIPT_DIR}/.." )
 
 # code repository 
-CODE_CENTRAL=https://github.com/kyunghyuncho/dl4mt-tutorial
+CODE_CENTRAL=https://github.com/nyu-dl/dl4mt-tutorial
 
 # our input files will reside here
 DATA_DIR=${CODE_DIR}/data
@@ -40,7 +41,7 @@ if [ ! -d "${CODE_DIR}" ]; then
 fi
 
 # download the europarl v7 and validation sets and extract
-python ${CODE_DIR}/data/download_files.py \
+python3 ${CODE_DIR}/data/download_files.py \
     -s='fr' -t='en' \
     --source-dev=newstest2011.fr \
     --target-dev=newstest2011.en \
@@ -70,11 +71,11 @@ else
     perl ${CODE_DIR}/data/tokenizer.perl -l 'en' < ${DATA_DIR}/europarl-v7.fr-en.en > ${DATA_DIR}/europarl-v7.fr-en.en.tok
 
     # extract dictionaries
-    python ${CODE_DIR}/data/build_dictionary.py ${DATA_DIR}/europarl-v7.fr-en.fr.tok
-    python ${CODE_DIR}/data/build_dictionary.py ${DATA_DIR}/europarl-v7.fr-en.en.tok
+    python3 ${CODE_DIR}/data/build_dictionary.py ${DATA_DIR}/europarl-v7.fr-en.fr.tok
+    python3 ${CODE_DIR}/data/build_dictionary.py ${DATA_DIR}/europarl-v7.fr-en.en.tok
 
     # shuffle traning data
-    python ${CODE_DIR}/data/shuffle.py ${DATA_DIR}/europarl-v7.fr-en.en.tok ${DATA_DIR}/europarl-v7.fr-en.fr.tok 
+    python3 ${CODE_DIR}/data/shuffle.py ${DATA_DIR}/europarl-v7.fr-en.en.tok ${DATA_DIR}/europarl-v7.fr-en.fr.tok 
 fi
 
 # create model output directory if it does not exist 
@@ -83,4 +84,4 @@ if [ ! -d "${MODELS_DIR}" ]; then
 fi
 
 # check if theano is working
-python -c "import theano;print 'theano available!'"
+python3 -c "import theano;print('theano available!')"

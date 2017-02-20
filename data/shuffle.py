@@ -16,7 +16,7 @@ def main(files):
 
     for l in fds[0]:
         lines = [l.strip()] + [ff.readline().strip() for ff in fds[1:]]
-        print >>tf, "|||".join(lines)
+        print("|||".join(lines), file=tf)
 
     [ff.close() for ff in fds]
     tf.close()
@@ -30,7 +30,7 @@ def main(files):
     for l in lines:
         s = l.strip().split('|||')
         for ii, fd in enumerate(fds):
-            print >>fd, s[ii]
+            print(s[ii], file=fd)
 
     [ff.close() for ff in fds]
 

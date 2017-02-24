@@ -68,7 +68,17 @@ if [ ! -d "${CODE_DIR}" ]; then
 fi
 
 # download the europarl v7 and validation sets and extract
-$PYTHON ${CODE_DIR}/data/download_files.py \
+if [ ! -f ${DATA_DIR}/train_data.tgz ]; then 
+    curl -o ${DATA_DIR}/train_data.tgz http://www.statmt.org/europarl/v7/fr-en.tgz
+else
+    echo "${DATA_DIR}/train_data.tgz exists"
+fi
+if [ ! -f ${DATA_DIR}/valid_data.tgz ]; then
+    curl -o ${DATA_DIR}/valid_data.tgz http://matrix.statmt.org/test_sets/newstest2011.tgz
+else
+    echo "${DATA_DIR}/valid_data.tgz exists"
+fi
+$PYTHON ${CODE_DIR}/data/extract_files.py \
     -s='fr' -t='en' \
     --source-dev=newstest2011.fr \
     --target-dev=newstest2011.en \

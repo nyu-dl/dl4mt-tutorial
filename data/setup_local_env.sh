@@ -18,13 +18,6 @@ while getopts ':b' flag; do
   esac
 done
 
-if [ "$#" -ne 4 ]; then
-    echo ""
-    echo "Usage: $0 src trg path_to_data path_to_subword"
-    echo ""
-    exit 1
-fi
-
 if [ -z $PYTHON ]; then
     if [ -n `which python3` ]; then
         export PYTHON=python3
@@ -48,7 +41,7 @@ echo "Using $PYTHON"
 
 # code directory for cloned repositories
 SCRIPT_DIR=$( dirname "${BASH_SOURCE[0]}" )
-CODE_DIR=$( realpath "${SCRIPT_DIR}/.." )
+CODE_DIR=${SCRIPT_DIR}/..
 
 # code repository 
 CODE_CENTRAL=https://github.com/nyu-dl/dl4mt-tutorial

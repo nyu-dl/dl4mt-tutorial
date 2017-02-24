@@ -14,6 +14,27 @@ if [ "$#" -ne 4 ]; then
     exit 1
 fi
 
+if [ -z $PYTHON ]; then
+    if [ -n `which python3` ]; then
+        export PYTHON=python3
+    else
+        if [ -n `which python2`]; then
+            export PYTHON=python2
+        else
+            if [ -n `which python`]; then
+                export PYTHON=python
+            fi
+        fi
+    fi 
+fi
+
+if [ -z $PYTHON ]; then
+    echo "Please set PYTHON to a Python interpreter"
+    exit 1 
+fi
+
+echo "Using $PYTHON"
+
 # number of merge ops (codes) for bpe
 SRC_CODE_SIZE=20000
 TRG_CODE_SIZE=20000
@@ -41,16 +62,16 @@ perl $P1/tokenizer.perl -threads 5 -l $T < ${P1}/test2011/newstest2011.${T} > ${
 
 # BPE
 if [ ! -f "${S}.bpe" ]; then
-    python3 $P2/learn_bpe.py -s 20000 < all_${S}-${T}.${S}.tok > ${S}.bpe
+    $PYTHON $P2/learn_bpe.py -s 20000 < all_${S}-${T}.${S}.tok > ${S}.bpe
 fi
 if [ ! -f "${T}.bpe" ]; then
-    python3 $P2/learn_bpe.py -s 20000 < all_${S}-${T}.${T}.tok > ${T}.bpe
+    $PYTHON $P2/learn_bpe.py -s 20000 < all_${S}-${T}.${T}.tok > ${T}.bpe
 fi
 
 # utility function to encode a file with bpe
 encode () {
     if [ ! -f "$3" ]; then
-        python3 $P2/apply_bpe.py -c $1 < $2 > $3 
+        $PYTHON $P2/apply_bpe.py -c $1 < $2 > $3 
     else
         echo "$3 exists, pass"
     fi
@@ -63,9 +84,9 @@ encode ${S}.bpe ${P1}/newstest2011.${S}.tok ${P1}/newstest2011.${S}.tok.bpe
 encode ${T}.bpe ${P1}/newstest2011.${T}.tok ${P1}/newstest2011.${T}.tok.bpe
 
 # shuffle 
-python3 $P1/shuffle.py all_${S}-${T}.${S}.tok.bpe all_${S}-${T}.${T}.tok.bpe
+$PYTHON $P1/shuffle.py all_${S}-${T}.${S}.tok.bpe all_${S}-${T}.${T}.tok.bpe
 
 # build dictionary
-python3 $P1/build_dictionary.py all_${S}-${T}.${S}.tok.bpe
-python3 $P1/build_dictionary.py all_${S}-${T}.${T}.tok.bpe
+$PYTHON $P1/build_dictionary.py all_${S}-${T}.${S}.tok.bpe
+$PYTHON $P1/build_dictionary.py all_${S}-${T}.${T}.tok.bpe
 

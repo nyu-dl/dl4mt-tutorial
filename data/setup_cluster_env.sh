@@ -2,6 +2,27 @@
 # This script sets up development and data environments for 
 # fionn cluster, copy under your home directory and run.
 
+if [ -z $PYTHON ]; then
+    if [ -n `which python3` ]; then
+        export PYTHON=python3
+    else
+        if [ -n `which python2`]; then
+            export PYTHON=python2
+        else
+            if [ -n `which python`]; then
+                export PYTHON=python
+            fi
+        fi
+    fi 
+fi
+
+if [ -z $PYTHON ]; then
+    echo "Please set PYTHON to a Python interpreter"
+    exit 1 
+fi
+
+echo "Using $PYTHON"
+
 # this file is for the dependencies
 LOCAL_INSTALL_FILE=/ichec/work/dl4mt_data/local_install.tgz
 
@@ -59,8 +80,8 @@ echo "Cloning/installing Theano"
 mkdir -p ${THEANO_DIR}
 git clone ${THEANO_GIT} ${THEANO_DIR}
 cd ${THEANO_DIR}
-python3 setup.py install --user
+$PYTHON setup.py install --user
 
 # check if theano is working
-python3 -c "import theano;print 'theano available!'"
+$PYTHON -c "from __future__ import print_function; import theano; print 'theano available!'"
 

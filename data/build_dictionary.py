@@ -1,7 +1,11 @@
 from __future__ import print_function
 
 import numpy
-import pickle as pkl
+
+try:
+    import cPickle as pkl
+except:
+    import pickle as pkl
 
 import sys
 import fileinput

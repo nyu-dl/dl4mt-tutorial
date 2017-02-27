@@ -18,12 +18,33 @@ while getopts ':b' flag; do
   esac
 done
 
+if [ -z $PYTHON ]; then
+    if [ -n `which python3` ]; then
+        export PYTHON=python3
+    else
+        if [ -n `which python2`]; then
+            export PYTHON=python2
+        else
+            if [ -n `which python`]; then
+                export PYTHON=python
+            fi
+        fi
+    fi 
+fi
+
+if [ -z $PYTHON ]; then
+    echo "Please set PYTHON to a Python interpreter"
+    exit 1 
+fi
+
+echo "Using $PYTHON"
 
 # code directory for cloned repositories
-CODE_DIR=${HOME}/git/dl4mt-tutorial
+SCRIPT_DIR=$( dirname "${BASH_SOURCE[0]}" )
+CODE_DIR=${SCRIPT_DIR}/..
 
 # code repository 
-CODE_CENTRAL=https://github.com/kyunghyuncho/dl4mt-tutorial
+CODE_CENTRAL=https://github.com/nyu-dl/dl4mt-tutorial
 
 # our input files will reside here
 DATA_DIR=${CODE_DIR}/data
@@ -40,7 +61,17 @@ if [ ! -d "${CODE_DIR}" ]; then
 fi
 
 # download the europarl v7 and validation sets and extract
-python ${CODE_DIR}/data/download_files.py \
+if [ ! -f ${DATA_DIR}/train_data.tgz ]; then 
+    curl -o ${DATA_DIR}/train_data.tgz http://www.statmt.org/europarl/v7/fr-en.tgz
+else
+    echo "${DATA_DIR}/train_data.tgz exists"
+fi
+if [ ! -f ${DATA_DIR}/valid_data.tgz ]; then
+    curl -o ${DATA_DIR}/valid_data.tgz http://matrix.statmt.org/test_sets/newstest2011.tgz
+else
+    echo "${DATA_DIR}/valid_data.tgz exists"
+fi
+$PYTHON ${CODE_DIR}/data/extract_files.py \
     -s='fr' -t='en' \
     --source-dev=newstest2011.fr \
     --target-dev=newstest2011.en \
@@ -70,11 +101,11 @@ else
     perl ${CODE_DIR}/data/tokenizer.perl -l 'en' < ${DATA_DIR}/europarl-v7.fr-en.en > ${DATA_DIR}/europarl-v7.fr-en.en.tok
 
     # extract dictionaries
-    python ${CODE_DIR}/data/build_dictionary.py ${DATA_DIR}/europarl-v7.fr-en.fr.tok
-    python ${CODE_DIR}/data/build_dictionary.py ${DATA_DIR}/europarl-v7.fr-en.en.tok
+    $PYTHON ${CODE_DIR}/data/build_dictionary.py ${DATA_DIR}/europarl-v7.fr-en.fr.tok
+    $PYTHON ${CODE_DIR}/data/build_dictionary.py ${DATA_DIR}/europarl-v7.fr-en.en.tok
 
     # shuffle traning data
-    python ${CODE_DIR}/data/shuffle.py ${DATA_DIR}/europarl-v7.fr-en.en.tok ${DATA_DIR}/europarl-v7.fr-en.fr.tok 
+    $PYTHON ${CODE_DIR}/data/shuffle.py ${DATA_DIR}/europarl-v7.fr-en.en.tok ${DATA_DIR}/europarl-v7.fr-en.fr.tok 
 fi
 
 # create model output directory if it does not exist 
@@ -83,4 +114,4 @@ if [ ! -d "${MODELS_DIR}" ]; then
 fi
 
 # check if theano is working
-python -c "import theano;print 'theano available!'"
+$PYTHON -c "from __future__ import print_function; import theano; print('theano available!')"

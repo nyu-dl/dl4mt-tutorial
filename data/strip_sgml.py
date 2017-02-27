@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import sys
 import re
 
@@ -10,7 +12,7 @@ def main():
         text = re.sub('<[^<]+>', "", line).strip()
         if len(text) == 0:
             continue
-        print >>fout, text
+        print(text, file=fout)
                 
 
 if __name__ == "__main__":

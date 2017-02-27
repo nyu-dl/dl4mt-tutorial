@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import numpy
 import theano
 
@@ -61,6 +63,6 @@ actual_input = numpy.random.randn(
 h_vals_, o_vals_ = f(actual_input)
 
 # print the shapes
-print 'shape of input :', actual_input.shape
-print 'shape of h_vals:', h_vals_.shape
-print 'shape of o_vals:', o_vals_.shape
+print('shape of input :', actual_input.shape)
+print('shape of h_vals:', h_vals_.shape)
+print('shape of o_vals:', o_vals_.shape)

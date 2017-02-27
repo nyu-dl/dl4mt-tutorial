@@ -4,7 +4,6 @@ import argparse
 import logging
 import os
 import tarfile
-import urllib2
 
 TRAIN_DATA_URL = 'http://www.statmt.org/europarl/v7/fr-en.tgz'
 VALID_DATA_URL = 'http://matrix.statmt.org/test_sets/newstest2011.tgz'
@@ -25,34 +24,6 @@ parser.add_argument("--target-dev", type=str, default="newstest2011.en",
                     help="Target language dev filename")
 parser.add_argument("--outdir", type=str, default=".",
                     help="Output directory")
-
-
-def download_and_write_file(url, file_name):
-    logger.info("Downloading [{}]".format(url))
-    if not os.path.exists(file_name):
-        path = os.path.dirname(file_name)
-        if not os.path.exists(path):
-            os.makedirs(path)
-        u = urllib2.urlopen(url)
-        f = open(file_name, 'wb')
-        meta = u.info()
-        file_size = int(meta.getheaders("Content-Length")[0])
-        logger.info("...saving to: %s Bytes: %s" % (file_name, file_size))
-        file_size_dl = 0
-        block_sz = 8192
-        while True:
-            buffer = u.read(block_sz)
-            if not buffer:
-                break
-            file_size_dl += len(buffer)
-            f.write(buffer)
-            status = r"%10d  [%3.2f%%]" % \
-                (file_size_dl, file_size_dl * 100. / file_size)
-            status = status + chr(8)*(len(status)+1)
-            print status,
-        f.close()
-    else:
-        logger.info("...file exists [{}]".format(file_name))
 
 
 def extract_tar_file_to(file_to_extract, extract_into, names_to_look):
@@ -88,13 +59,11 @@ def main():
     valid_data_file = os.path.join(args.outdir, 'valid_data.tgz')
 
     # Download europarl v7 and extract it
-    download_and_write_file(TRAIN_DATA_URL, train_data_file)
     extract_tar_file_to(
         train_data_file, os.path.dirname(train_data_file),
         ["{}-{}".format(args.source, args.target)])
 
     # Download development set and extract it
-    download_and_write_file(VALID_DATA_URL, valid_data_file)
     extract_tar_file_to(
         valid_data_file, os.path.dirname(valid_data_file),
         [args.source_dev, args.target_dev])
